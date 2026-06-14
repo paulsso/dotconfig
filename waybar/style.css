@@ -1,0 +1,68 @@
+@import "flexoki-dark.css";
+
+window#waybar {
+  color: @ui;
+  background-color: transparent;
+}
+#workspaces {
+    background-color: @ui;
+    /* Thin gray border for the entire tray */
+    border: 2px solid @pu; 
+    border-radius: 8px;
+    padding: 2px 4px;
+    margin: 2px;
+}
+
+/* -----------------------------------------------------
+   Individual Workspaces (The buttons)
+   ----------------------------------------------------- */
+#workspaces button {
+    background-color: transparent;
+    /* Thin rounded border for each workspace */
+    border: 1px solid #666666; 
+    border-radius: 6px;
+    /* Simple gray icons */
+    color: #888888; 
+    padding: 2px 9px 2px 7px;
+    margin: 0 2px;
+    min-width: 64px;
+}
+
+/* Hover state for ergonomics */
+#workspaces button:hover {
+    background-color: rgba(100, 100, 100, 0.2);
+    border-color: #999999;
+}
+
+/* Active workspace state (Slightly brighter gray for visibility) */
+#workspaces button.active {
+    color: #bbbbbb; 
+    border-color: #bbbbbb;
+}
+/* -----------------------------------------------------
+   The Custom Tray Wrapper (Mirrors #workspaces)
+   ----------------------------------------------------- */
+#group-systemtray {
+    background-color: @ui;
+    /* The same thin gray border */
+    border: 2px solid @pu; 
+    border-radius: 8px;
+    padding: 2px 4px;
+    margin: 4px;
+}
+
+/* -----------------------------------------------------
+   The Items Inside the Custom Tray
+   ----------------------------------------------------- */
+#clock, #cpu, #memory, #language, #network, #pulseaudio {
+    /* The same simple gray from your workspace icons */
+    background-color: transparent;
+    /* Thin rounded border for each workspace */
+    border: 1px solid #666666; 
+    border-radius: 6px;
+    /* Simple gray icons */
+    color: @tx; 
+    padding: 2px 7px 2px 7px;
+    margin: 2px;
+    min-width: 64px;
+}

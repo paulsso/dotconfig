@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Define the session name and the target directory (defaults to current dir)
+SESSION="aoc_engine"
+TARGET_DIR="${1:-$PWD}"
+
+# Check if the session already exists to prevent duplicate instantiations
+tmux has-session -t $SESSION 2>/dev/null
+
+if [ $? != 0 ]; then
+  # 1. Initialize a new detached session and name the first window 'workspace'
+  tmux new-session -d -s $SESSION -n "workspace" -c "$TARGET_DIR"
+
+  # 2. Launch Neovim in the primary pane (Pane 0)
+  tmux send-keys -t $SESSION:workspace.0 'nvim' C-m
+
+  # 3. Split the window vertically (-v creates a top/bottom split).
+  # Use -p 18 to allocate 18% of the screen height to the bottom terminal.
+  tmux split-window -v -p 18 -t $SESSION:workspace -c "$TARGET_DIR"
+
+  # 4. Return focus to the top pane (Neovim) so you are instantly ready to code
+  tmux select-pane -t $SESSION:workspace.0
+fi
+
+# Attach your current terminal client to the session
+tmux attach-session -t $SESSION
