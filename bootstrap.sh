@@ -142,8 +142,9 @@ if [ ! -d "$TARGET/.git" ]; then
         # Clone the copy we're running from (keeps its branch, works offline),
         # then point origin at the real remote.
         git clone "$DOT" "$TARGET"
-        git -C "$TARGET" remote set-url origin \
-            "$(git -C "$DOT" remote get-url origin 2>/dev/null || echo "$DOTCONFIG_REPO")"
+        origin="$(git -C "$DOT" remote get-url origin 2>/dev/null || true)"
+        [[ "$origin" == *://* || "$origin" == *@*:* ]] || origin="$DOTCONFIG_REPO"
+        git -C "$TARGET" remote set-url origin "$origin"
     else
         git clone "$DOTCONFIG_REPO" "$TARGET"
     fi
