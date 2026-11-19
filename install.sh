@@ -33,6 +33,12 @@ gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
 gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
     --method org.kde.KGlobalAccel.setForeignShortcutKeys "$ACTION" \
     "[([$ALT_SHIFT_RETURN, 0, 0, 0],)]" >/dev/null
+# Mark the action present (flags: SetPresent=2 | NoAutoloading=4). Without
+# this a runtime-registered desktop-file shortcut stays inactive and key
+# presses are ignored until the next login.
+gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
+    --method org.kde.KGlobalAccel.setShortcutKeys "$ACTION" \
+    "[([$ALT_SHIFT_RETURN, 0, 0, 0],)]" 6 >/dev/null
 
 echo
 echo "Done:"
