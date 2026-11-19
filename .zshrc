@@ -104,7 +104,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source <(fzf --zsh)
 
-if [[ -z "TMUX" ]]; then
+if [[ -z "$TMUX" ]]; then
   exec tmux new-session -A -s main
 fi
 export PATH="$HOME/.local/bin:$PATH"
