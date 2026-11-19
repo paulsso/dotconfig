@@ -47,16 +47,53 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="labelGap">
+    <widget class="QLabel" name="labelGap1">
      <property name="text">
-      <string>Gap (px):</string>
+      <string>Gap with 1 terminal:</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QSpinBox" name="kcfg_Gap">
+    <widget class="QSpinBox" name="kcfg_Gap1">
      <property name="maximum">
-      <number>100</number>
+      <number>200</number>
+     </property>
+     <property name="suffix">
+      <string> px</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelGap2">
+     <property name="text">
+      <string>Gap with 2 terminals:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QSpinBox" name="kcfg_Gap2">
+     <property name="maximum">
+      <number>200</number>
+     </property>
+     <property name="suffix">
+      <string> px</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelGap3">
+     <property name="text">
+      <string>Gap with 3 terminals (4+ = no gap):</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QSpinBox" name="kcfg_Gap3">
+     <property name="maximum">
+      <number>200</number>
+     </property>
+     <property name="suffix">
+      <string> px</string>
      </property>
     </widget>
    </item>

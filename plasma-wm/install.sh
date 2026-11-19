@@ -45,6 +45,7 @@ echo "Done:"
 echo "  Alt+Shift+Return  open a new kitty terminal"
 echo "  Alt+Shift+Q       close the focused window"
 echo "  Alt+Shift+Space   toggle floating for a tiled window"
+echo "  Alt+Shift+H/J/K/L move the focused terminal left/down/up/right"
 echo
 echo "Change any of these in System Settings > Keyboard > Shortcuts;"
 echo "tiling options are in System Settings > Window Management > KWin Scripts > i3 Terminal."

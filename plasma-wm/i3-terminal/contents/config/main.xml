@@ -13,8 +13,14 @@
     <entry name="Layout" type="Int">
       <default>0</default>
     </entry>
-    <entry name="Gap" type="Int">
-      <default>0</default>
+    <entry name="Gap1" type="Int">
+      <default>48</default>
+    </entry>
+    <entry name="Gap2" type="Int">
+      <default>24</default>
+    </entry>
+    <entry name="Gap3" type="Int">
+      <default>12</default>
     </entry>
   </group>
 </kcfg>
