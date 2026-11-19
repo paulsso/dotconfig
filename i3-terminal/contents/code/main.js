@@ -19,7 +19,12 @@ var config = {};
 function loadConfig() {
     config.enabled = readConfig("TilingEnabled", true);
     config.layout = readConfig("Layout", LAYOUT_COLUMNS);
-    config.gap = Math.max(0, readConfig("Gap", 0));
+    // Gap (px) for 1, 2 and 3 tiles on a screen; 4 or more tiles get none.
+    config.gaps = [
+        Math.max(0, readConfig("Gap1", 48)),
+        Math.max(0, readConfig("Gap2", 24)),
+        Math.max(0, readConfig("Gap3", 12))
+    ];
     config.classes = String(readConfig("TiledClasses", "kitty"))
         .split(",")
         .map(function (s) { return s.trim().toLowerCase(); })
@@ -117,6 +122,11 @@ function applyGap(r, gap) {
     };
 }
 
+// Fewer tiles on a screen = more breathing room; 4+ tiles use every pixel.
+function gapFor(count) {
+    return count >= 1 && count <= config.gaps.length ? config.gaps[count - 1] : 0;
+}
+
 var retiling = false;
 
 function retile() {
@@ -139,7 +149,7 @@ function retile() {
             var wins = groups[order[k]];
             var first = wins[0];
             var area = workspace.clientArea(KWin.MaximizeArea, first.output, first.desktops[0]);
-            var g = config.gap;
+            var g = gapFor(wins.length);
             var inner = { x: area.x + g / 2, y: area.y + g / 2, width: area.width - g, height: area.height - g };
             var rects = splitArea(inner, wins.length, config.layout);
             for (var j = 0; j < wins.length; j++) {
@@ -216,6 +226,84 @@ function toggleFloating() {
     retile();
 }
 
+// --- Moving tiles (i3 `move left|right|up|down`) ---------------------------
+
+var DIRS = {
+    left:  { dx: -1, dy: 0 },
+    right: { dx: 1,  dy: 0 },
+    up:    { dx: 0,  dy: -1 },
+    down:  { dx: 0,  dy: 1 }
+};
+
+function center(r) {
+    return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+}
+
+// How far rect `r` lies beyond `from`'s edge in direction `d`, or -1 if it
+// isn't entirely on that side (small tolerance for rounding).
+function distanceBeyond(from, r, d) {
+    var tol = 2, gap;
+    if (d.dx < 0) gap = from.x - (r.x + r.width);
+    else if (d.dx > 0) gap = r.x - (from.x + from.width);
+    else if (d.dy < 0) gap = from.y - (r.y + r.height);
+    else gap = r.y - (from.y + from.height);
+    return gap >= -tol ? Math.max(0, gap) : -1;
+}
+
+// Nearest rect entirely in direction `d` from `from`, preferring ones that
+// overlap on the other axis (the tile right beside it, not diagonally away).
+function nearestInDirection(from, candidates, rectOf, d) {
+    var c = center(from);
+    var best = null, bestScore = Infinity;
+    for (var i = 0; i < candidates.length; i++) {
+        var r = rectOf(candidates[i]);
+        var o = center(r);
+        var along = distanceBeyond(from, r, d);
+        if (along < 0) continue;
+        var overlaps = d.dx !== 0
+            ? r.y < from.y + from.height && r.y + r.height > from.y
+            : r.x < from.x + from.width && r.x + r.width > from.x;
+        var across = d.dx !== 0 ? Math.abs(o.y - c.y) : Math.abs(o.x - c.x);
+        var score = (overlaps ? 0 : 1e6) + along + across;
+        if (score < bestScore) {
+            bestScore = score;
+            best = candidates[i];
+        }
+    }
+    return best;
+}
+
+function moveActive(dirName) {
+    var w = workspace.activeWindow;
+    if (!w || indexOf(managed, w) < 0 || !isActiveTile(w)) return;
+    var d = DIRS[dirName];
+
+    var key = groupKey(w);
+    var peers = managed.filter(function (o) {
+        return o !== w && isActiveTile(o) && groupKey(o) === key;
+    });
+    var target = nearestInDirection(w.frameGeometry, peers,
+        function (o) { return o.frameGeometry; }, d);
+
+    if (target) {
+        var a = indexOf(managed, w), b = indexOf(managed, target);
+        managed[a] = target;
+        managed[b] = w;
+        retile();
+        return;
+    }
+
+    // Nothing that way on this screen: move to the next monitor over.
+    var screens = workspace.screens || [];
+    var others = screens.filter(function (s) { return s !== w.output; });
+    var screen = nearestInDirection(w.output.geometry, others,
+        function (s) { return s.geometry; }, d);
+    if (screen) {
+        workspace.sendClientToScreen(w, screen);
+        retile();
+    }
+}
+
 function init() {
     loadConfig();
 
@@ -223,6 +311,14 @@ function init() {
         "Alt+Shift+Q", closeActive);
     registerShortcut("i3TerminalToggleFloating", "i3 Terminal: Toggle floating",
         "Alt+Shift+Space", toggleFloating);
+    registerShortcut("i3TerminalMoveLeft", "i3 Terminal: Move window left",
+        "Alt+Shift+H", function () { moveActive("left"); });
+    registerShortcut("i3TerminalMoveDown", "i3 Terminal: Move window down",
+        "Alt+Shift+J", function () { moveActive("down"); });
+    registerShortcut("i3TerminalMoveUp", "i3 Terminal: Move window up",
+        "Alt+Shift+K", function () { moveActive("up"); });
+    registerShortcut("i3TerminalMoveRight", "i3 Terminal: Move window right",
+        "Alt+Shift+L", function () { moveActive("right"); });
 
     workspace.windowAdded.connect(manage);
     workspace.windowRemoved.connect(unmanage);

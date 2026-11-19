@@ -15,7 +15,8 @@ gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
     --method org.kde.KGlobalAccel.setForeignShortcutKeys "$ACTION" "@a(ai) []" >/dev/null
 
 # Drop the script's own shortcuts from the kwin component.
-for name in i3TerminalClose i3TerminalToggleFloating; do
+for name in i3TerminalClose i3TerminalToggleFloating \
+            i3TerminalMoveLeft i3TerminalMoveDown i3TerminalMoveUp i3TerminalMoveRight; do
     gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
         --method org.kde.KGlobalAccel.unregister kwin "$name" >/dev/null || true
 done
