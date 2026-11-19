@@ -7,6 +7,7 @@
   "spacing": 5,
   "reload_on_style_change": true,
   "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["tray"],
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
@@ -42,7 +43,7 @@
   "modules-center": ["group/systemtray"],
   "group/systemtray": {
       "orientation": "horizontal",
-      "modules": ["hyprland/language","cpu","memory","clock","tray","pulseaudio",],
+      "modules": ["hyprland/language","cpu","memory","clock","pulseaudio",],
     },
   "cpu": { 
     "interval": 10, 
