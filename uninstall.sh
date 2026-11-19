@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Remove the i3-terminal KWin script and the Alt+Return kitty binding.
+# Remove the i3-terminal KWin script and the Alt+Shift+Return kitty binding.
 set -uo pipefail
 
 ID="i3-terminal"

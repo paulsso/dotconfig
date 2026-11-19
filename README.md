@@ -2,11 +2,11 @@
 
 i3-style terminal handling inside a normal Plasma 6 session.
 
-| Shortcut          | Action                                   |
-|-------------------|------------------------------------------|
-| `Alt+Return`      | Open a new kitty terminal                |
-| `Alt+Shift+Q`     | Close the focused window                 |
-| `Alt+Shift+Space` | Toggle floating for a tiled window       |
+| Shortcut           | Action                                   |
+|--------------------|------------------------------------------|
+| `Alt+Shift+Return` | Open a new kitty terminal                |
+| `Alt+Shift+Q`      | Close the focused window                 |
+| `Alt+Shift+Space`  | Toggle floating for a tiled window       |
 
 kitty windows are tiled automatically per screen and virtual desktop.
 A new terminal opens to the right of the focused one, and closing one
@@ -26,7 +26,7 @@ No logout needed.
 
 - `i3-terminal/` is a KWin script (JavaScript). It registers
   `Alt+Shift+Q` / `Alt+Shift+Space` as KWin global shortcuts and does the tiling.
-- KWin scripts can't start processes, so `Alt+Return` is a standard Plasma
+- KWin scripts can't start processes, so `Alt+Shift+Return` is a standard Plasma
   launch shortcut on `kitty.desktop`, registered via kglobalaccel over D-Bus
   (the same thing *System Settings → Shortcuts → Add Application* does).
 

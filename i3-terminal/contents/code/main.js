@@ -6,7 +6,7 @@
  *    automatically per screen + virtual desktop. Opening one splits the
  *    space, closing one lets the others reflow — like i3.
  *
- * Launching kitty with Alt+Return is a regular Plasma global shortcut on
+ * Launching kitty with Alt+Shift+Return is a regular Plasma global shortcut on
  * kitty.desktop (KWin scripts cannot start processes); install.sh sets it.
  */
 
