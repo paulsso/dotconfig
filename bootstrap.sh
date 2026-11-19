@@ -88,6 +88,10 @@ msg "Enabling multilib"
 if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
     sed -i '/^#\[multilib\]/,/^#Include/ s/^#//' /etc/pacman.conf
 fi
+# Some pacman.conf variants (e.g. container images) lack the block entirely.
+if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
+    printf '\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n' >> /etc/pacman.conf
+fi
 
 msg "Installing packages"
 pacman -Syu --needed --noconfirm "${PKGS[@]}"
