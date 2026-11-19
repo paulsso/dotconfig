@@ -1,0 +1,19 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "oskar"
+            }
+        ],
+        "Description": "i3-style terminal handling: Alt+Shift+Q closes the focused window and kitty windows are auto-tiled.",
+        "EnabledByDefault": true,
+        "Icon": "utilities-terminal",
+        "Id": "i3-terminal",
+        "License": "MIT",
+        "Name": "i3 Terminal",
+        "Version": "1.0"
+    },
+    "X-KDE-ConfigModule": "kcm_kwin4_genericscripted",
+    "X-Plasma-API": "javascript"
+}
