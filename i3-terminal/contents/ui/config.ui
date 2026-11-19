@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>I3TerminalConfig</class>
+ <widget class="QWidget" name="I3TerminalConfig">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_TilingEnabled">
+     <property name="text">
+      <string>Automatically tile matching windows</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelClasses">
+     <property name="text">
+      <string>Window classes to tile (comma separated, * = all):</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="kcfg_TiledClasses"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelLayout">
+     <property name="text">
+      <string>Layout:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QComboBox" name="kcfg_Layout">
+     <item>
+      <property name="text">
+       <string>Columns (i3 default splith)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Rows (i3 splitv)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Spiral (alternating splits)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelGap">
+     <property name="text">
+      <string>Gap (px):</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QSpinBox" name="kcfg_Gap">
+     <property name="maximum">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+</ui>
